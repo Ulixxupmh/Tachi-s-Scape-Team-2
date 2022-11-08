@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team2 - Tachi's Scape </title>
+    
+
+    <style>
+        body{
+            height:100vh;
+            background: #d3850f ;
+            display: flex;
+            align-items: center;
+        }
+
+        .contenedor {
+            width: 920px;
+            height: 280px;
+            margin: 0 auto;
+
+            position: relative;
+            background: url(escenario.jpeg) repeat-x 0px 0px;
+            background-size: 920px 280px;
+            background-position-x: -0px;
+            overflow: hidden;
+        }
+
+        .tachi {
+            width: 36px;
+            height: 84px;
+
+            position: absolute;
+            bottom: 22px;
+            left: 22px;
+            z-index: 2;
+
+            background: url(tachi.png) repeat-x 0px 0px;
+            background-size: 327px 125px;
+            background-position-x: -0px;
+
+        }
+        .suelo {
+            width: 200%;
+            height: 42px;
+
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            background: url(suelo.png) repeat-x 0px 0px;
+            background-size: 50% 42px;
+        }
+
+        .tachiCorriendo{
+            animation: animaTachi 0.25s steps(4) infinite;
+        }
+
+        @keyframes animaTachi{
+            from{
+                background-position: -84px;
+            }
+            to{
+                background-position: -252px;
+            }
+        }
+
+    </style>
+    
+</head>
+
+<body>
+    <div class="contenedor"> 
+        <div class="suelo"></div>
+        <div class="tachi tachiCorriendo"></div>
+    </div>
+    <script>
+        var time = new Date();
+        var deltaTime = 0;
+
+        //Física del juego
+        var sueloY = 22;
+        var velY = 0;
+        var impulso = 700;
+	    var gravedad = 1500;
+
+        var TachiPosX = 22;
+        var TachiPosY = sueloY;
+
+        var sueloX = 0;
+        var velEscenario = 1280/2;
+        var gameVel = 1;
+
+        var parado = false;
+        var saltando = false;
+
+        var contenedor;
+        var tachi;
+        var suelo;
+
+        if(document.readyState === "complete" || document.readyState === "interactive"){
+        }
+        else{
+            console.log("Hola");
+            Init();
+        }
+
+        function Loop(){
+            deltaTime = (new Date() - time) / 5000;
+            time = new Date();
+
+            Update();
+
+            requestAnimationFrame(Loop);
+        }
+
+        function Init(){
+            time = new Date();
+            suelo = document.querySelector(".suelo");
+            contenedor = document.querySelector(".contenedor");
+            tachi = document.querySelector(".dino");
+
+            Loop();
+        }
+
+        function Update(){
+            sueloX += (velEscenario * deltaTime * gameVel);
+            suelo.style.left = -(sueloX % contenedor.clientWidth) + "px";
+        }
+
+    </script>
+
+</body>
+
+</html>
